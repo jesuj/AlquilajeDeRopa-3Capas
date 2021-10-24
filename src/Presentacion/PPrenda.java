@@ -27,6 +27,7 @@ public class PPrenda extends javax.swing.JFrame {
         this.apagarbotonCrear(true);
         this.jtf_id.setEditable(false);
         this.jtf_id.setEnabled(false);
+        this.setSize(761,456);
     }
 
     /**
