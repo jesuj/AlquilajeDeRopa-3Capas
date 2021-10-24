@@ -1,4 +1,3 @@
-
 package Presentacion;
 
 import Negocio.NCategoria;
@@ -13,11 +12,11 @@ import javax.swing.table.DefaultTableModel;
 public class PCategoria extends javax.swing.JFrame {
 
     private NCategoria ncategoria;
-    
+
     private int id;
     private String nombre;
     private String descripcion;
-    
+
     /**
      * Creates new form PCategorias
      */
@@ -30,7 +29,6 @@ public class PCategoria extends javax.swing.JFrame {
         this.jtf_id.setEditable(false);
         this.jtf_id.setEnabled(false);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -156,7 +154,7 @@ public class PCategoria extends javax.swing.JFrame {
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 400, 310));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/limpiar (1).png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/limpiar.png"))); // NOI18N
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -221,38 +219,37 @@ public class PCategoria extends javax.swing.JFrame {
         this.jbt_eliminar.setEnabled(false);
         this.jbt_crear.setEnabled(true);
     }//GEN-LAST:event_jLabel5MouseClicked
-    
-    private void crear(){
+
+    private void crear() {
         this.ncategoria.crear(nombre, descripcion);
         this.listar();
         this.limpiar();
     }
-    
-    private void eliminar(){
+
+    private void eliminar() {
         this.ncategoria.eliminar(this.id);
         this.listar();
         this.limpiar();
     }
-    
-    private void editar(){
+
+    private void editar() {
         this.ncategoria.editar(this.id, this.nombre, this.descripcion);
         this.listar();
         this.limpiar();
     }
-    
-    private void listar(){
+
+    private void listar() {
         ArrayList<Object[]> categorias = new ArrayList<>();
         categorias = ncategoria.listar();
-        String data[][] = new String[categorias.size()][categorias.get(0).length];
-        for (int i = 0; i < categorias.size(); i++) {
-            data[i][0]=String.valueOf(categorias.get(i)[0]);
-            data[i][1]=String.valueOf(categorias.get(i)[1]);
-            data[i][2]=String.valueOf(categorias.get(i)[2]);
-        }
-        String[] column = {"id","nombre","descripcion"};
-        this.jt_listar.setModel( new DefaultTableModel(data,column));
-        
-        
+        String data[][]= (categorias.size() != 0)? new String[categorias.size()][categorias.get(0).length]:null ;
+            for (int i = 0; i < categorias.size(); i++) {
+                data[i][0] = String.valueOf(categorias.get(i)[0]);
+                data[i][1] = String.valueOf(categorias.get(i)[1]);
+                data[i][2] = String.valueOf(categorias.get(i)[2]);
+            }
+            String[] column = {"id", "nombre", "descripcion"};
+            this.jt_listar.setModel(new DefaultTableModel(data, column));
+
 //        DefaultTableModel model = (DefaultTableModel) this.jt_listar.getModel();
 //        for (int i = 0; i < model.getRowCount(); i++) {
 //            model.removeRow(i+1);
@@ -260,10 +257,9 @@ public class PCategoria extends javax.swing.JFrame {
 //        for (int i = 0; i < categorias.size(); i++) {
 //            model.addRow(categorias.get(i));
 //        }
-        
     }
-    
-    private void limpiar(){
+
+    private void limpiar() {
         this.jtf_id.setText("");
         this.jtf_nombre.setText("");
         this.jta_descripcion.setText("");
@@ -271,7 +267,7 @@ public class PCategoria extends javax.swing.JFrame {
         this.jbt_eliminar.setEnabled(false);
         this.jbt_crear.setEnabled(true);
     }
-    
+
     /**
      * @param args the command line arguments
      */
