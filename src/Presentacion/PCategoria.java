@@ -24,8 +24,7 @@ public class PCategoria extends javax.swing.JFrame {
         initComponents();
         ncategoria = new NCategoria();
         this.listar();
-        this.jbt_editar.setEnabled(false);
-        this.jbt_eliminar.setEnabled(false);
+        this.apagarbotonCrear(true);
         this.jtf_id.setEditable(false);
         this.jtf_id.setEnabled(false);
     }
@@ -202,9 +201,7 @@ public class PCategoria extends javax.swing.JFrame {
         this.jtf_id.setText(this.jt_listar.getValueAt(rowSelected, 0).toString());
         this.jtf_nombre.setText(this.jt_listar.getValueAt(rowSelected, 1).toString());
         this.jta_descripcion.setText(this.jt_listar.getValueAt(rowSelected, 2).toString());
-        this.jbt_editar.setEnabled(true);
-        this.jbt_eliminar.setEnabled(true);
-        this.jbt_crear.setEnabled(false);
+        this.apagarbotonCrear(false);
     }//GEN-LAST:event_jt_listarMouseClicked
 
     private void jbt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_eliminarActionPerformed
@@ -215,9 +212,7 @@ public class PCategoria extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
         this.jtf_id.setText("");
-        this.jbt_editar.setEnabled(false);
-        this.jbt_eliminar.setEnabled(false);
-        this.jbt_crear.setEnabled(true);
+        this.apagarbotonCrear(true);
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void crear() {
@@ -266,6 +261,12 @@ public class PCategoria extends javax.swing.JFrame {
         this.jbt_editar.setEnabled(false);
         this.jbt_eliminar.setEnabled(false);
         this.jbt_crear.setEnabled(true);
+    }
+    
+    private void apagarbotonCrear(boolean valor){
+        this.jbt_editar.setEnabled(!valor);
+        this.jbt_eliminar.setEnabled(!valor);
+        this.jbt_crear.setEnabled(valor);
     }
 
     /**
