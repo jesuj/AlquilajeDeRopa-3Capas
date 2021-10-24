@@ -1,28 +1,37 @@
 package Presentacion;
 
-import Negocio.NPrenda;
+import Negocio.NCliente;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Oni
  */
-public class PPrenda extends javax.swing.JFrame {
-
+public class PCliente extends javax.swing.JFrame {
+    
     private int id;
     private String nombre;
-    private String tipo;
-    private String descripcion;
+    private String ci;
+    private String telefono;
+    private String fecha_nacimiento;
+    private String sexo;
+    private String direccion;
     
-    private NPrenda nprenda;
+    private NCliente ncliente;
     
     /**
-     * Creates new form PPrenda
+     * Creates new form PCliente
      */
-    public PPrenda() {
+    public PCliente() {
         initComponents();
-        this.nprenda = new NPrenda();
+        this.ncliente= new NCliente();
         this.listar();
         this.apagarbotonCrear(true);
         this.jtf_id.setEditable(false);
@@ -40,7 +49,6 @@ public class PPrenda extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jt_listar = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
@@ -48,41 +56,41 @@ public class PPrenda extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtf_nombre = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jcb_sexo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jta_descripcion = new javax.swing.JTextArea();
+        jta_direccion = new javax.swing.JTextArea();
         jbt_crear = new javax.swing.JButton();
         jbt_editar = new javax.swing.JButton();
         jbt_eliminar = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jcb_tipo = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jtf_ci = new javax.swing.JTextField();
+        jtf_telefono = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jdc_facha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setResizable(false);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(740, 380));
-        jPanel1.setPreferredSize(new java.awt.Dimension(740, 380));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Prenda");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 740, -1));
 
         jt_listar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "nombre", "tipo", "descripcion"
+                "id", "nombre", "ci", "telefono", "birthday", "sexo", "direccion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,14 +109,14 @@ public class PPrenda extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jt_listar);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 400, 310));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, 470, 310));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("ID:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
 
         jtf_id.setBorder(null);
-        jPanel1.add(jtf_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 70, 22));
+        jPanel1.add(jtf_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 70, 22));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/limpiar.png"))); // NOI18N
@@ -118,28 +126,35 @@ public class PPrenda extends javax.swing.JFrame {
                 jLabel5MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 30, 40));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 30, 40));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel2.setText("Nombre:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 50, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 50, 20));
 
         jtf_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtf_nombreActionPerformed(evt);
             }
         });
-        jPanel1.add(jtf_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 180, -1));
+        jPanel1.add(jtf_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 180, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel6.setText("sexo:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 40, 20));
+
+        jcb_sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MASCULINO", "FEMENINO" }));
+        jPanel1.add(jcb_sexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 130, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jLabel3.setText("descripcion :");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+        jLabel3.setText("direccion:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 60, -1));
 
-        jta_descripcion.setColumns(20);
-        jta_descripcion.setRows(5);
-        jScrollPane1.setViewportView(jta_descripcion);
+        jta_direccion.setColumns(20);
+        jta_direccion.setRows(5);
+        jScrollPane1.setViewportView(jta_direccion);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 180, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 180, 120));
 
         jbt_crear.setText("Crear");
         jbt_crear.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +162,7 @@ public class PPrenda extends javax.swing.JFrame {
                 jbt_crearActionPerformed(evt);
             }
         });
-        jPanel1.add(jbt_crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
+        jPanel1.add(jbt_crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, -1, -1));
 
         jbt_editar.setText("Editar");
         jbt_editar.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +170,7 @@ public class PPrenda extends javax.swing.JFrame {
                 jbt_editarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbt_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, -1, -1));
+        jPanel1.add(jbt_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 370, -1, -1));
 
         jbt_eliminar.setText("Eliminar");
         jbt_eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,14 +178,41 @@ public class PPrenda extends javax.swing.JFrame {
                 jbt_eliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, -1, -1));
+        jPanel1.add(jbt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jLabel6.setText("tipo :");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 50, 20));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Cliente");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 740, -1));
 
-        jcb_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MASCULINO", "FEMENINO", "NEUTRO" }));
-        jPanel1.add(jcb_tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 130, -1));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel7.setText("CI:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 20, 20));
+
+        jtf_ci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_ciActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jtf_ci, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 180, -1));
+
+        jtf_telefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_telefonoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jtf_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 180, -1));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel8.setText("birthday:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 60, 20));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel9.setText("telefono:");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 60, 20));
+
+        jdc_facha.setDateFormatString("yyyy-MM-dd");
+        jPanel1.add(jdc_facha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 180, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -180,21 +222,26 @@ public class PPrenda extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jt_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_listarMouseClicked
-        // TODO add your handling code here:
         int rowSelected = this.jt_listar.getSelectedRow();
         this.jtf_id.setText(this.jt_listar.getValueAt(rowSelected, 0).toString());
         this.jtf_nombre.setText(this.jt_listar.getValueAt(rowSelected, 1).toString());
-        this.jcb_tipo.setSelectedIndex(this.settipo(this.jt_listar.getValueAt(rowSelected, 2).toString()));
-        this.jta_descripcion.setText(this.jt_listar.getValueAt(rowSelected, 3).toString());
+        this.jtf_ci.setText(this.jt_listar.getValueAt(rowSelected, 2).toString());
+        this.jtf_telefono.setText(this.jt_listar.getValueAt(rowSelected, 3).toString());
+        String fecha =this.jt_listar.getValueAt(rowSelected, 4).toString();
+        try {
+            this.jdc_facha.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(fecha));
+        } catch (ParseException ex) {
+            Logger.getLogger(PCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.jcb_sexo.setSelectedIndex(this.setSexo(this.jt_listar.getValueAt(rowSelected, 5).toString()));
+        this.jta_direccion.setText(this.jt_listar.getValueAt(rowSelected, 6).toString());
         this.apagarbotonCrear(false);
     }//GEN-LAST:event_jt_listarMouseClicked
 
@@ -209,10 +256,12 @@ public class PPrenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jtf_nombreActionPerformed
 
     private void jbt_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_crearActionPerformed
-        // TODO add your handling code here:
         this.nombre = this.jtf_nombre.getText();
-        this.tipo= this.gettipo();
-        this.descripcion = this.jta_descripcion.getText();
+        this.ci = this.jtf_ci.getText();
+        this.telefono = this.jtf_telefono.getText();
+        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+        this.sexo = this.getSexo();
+        this.direccion = this.jta_direccion.getText();
         this.crear();
     }//GEN-LAST:event_jbt_crearActionPerformed
 
@@ -220,8 +269,11 @@ public class PPrenda extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.nombre = this.jtf_nombre.getText();
-        this.tipo= this.gettipo();
-        this.descripcion = this.jta_descripcion.getText();
+        this.ci = this.jtf_ci.getText();
+        this.telefono = this.jtf_telefono.getText();
+        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+        this.sexo = this.getSexo();
+        this.direccion = this.jta_direccion.getText();
         this.editar();
     }//GEN-LAST:event_jbt_editarActionPerformed
 
@@ -229,48 +281,60 @@ public class PPrenda extends javax.swing.JFrame {
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.eliminar();
     }//GEN-LAST:event_jbt_eliminarActionPerformed
-    
+
+    private void jtf_telefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_telefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_telefonoActionPerformed
+
+    private void jtf_ciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_ciActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_ciActionPerformed
+
     
     private void crear() {
-        System.out.println(nombre +" "+tipo+" "+descripcion);
-        this.nprenda.crear(nombre,tipo, descripcion);
+        this.ncliente.crear(this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion);
         this.listar();
         this.limpiar();
     }
 
     private void eliminar() {
-        this.nprenda.eliminar(this.id);
+        this.ncliente.eliminar(this.id);
         this.listar();
         this.limpiar();
     }
 
     private void editar() {
-        this.nprenda.editar(this.id, this.nombre,this.tipo, this.descripcion);
+        this.ncliente.editar(this.id, this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion);
         this.listar();
         this.limpiar();
     }
 
     private void listar() {
-        ArrayList<Object[]> prendas = new ArrayList<>();
-        prendas = this.nprenda.listar();
-        String data[][]= (prendas.size() != 0)? new String[prendas.size()][prendas.get(0).length]:null ;
-            for (int i = 0; i < prendas.size(); i++) {
-                data[i][0] = String.valueOf(prendas.get(i)[0]);
-                data[i][1] = String.valueOf(prendas.get(i)[1]);
-                data[i][2] = String.valueOf(prendas.get(i)[2]);
-                data[i][3] = String.valueOf(prendas.get(i)[3]);
+        ArrayList<Object[]> clientes = new ArrayList<>();
+        clientes = this.ncliente.listar();
+        String data[][]= (clientes.size() != 0)? new String[clientes.size()][clientes.get(0).length]:null ;
+            for (int i = 0; i < clientes.size(); i++) {
+                data[i][0] = String.valueOf(clientes.get(i)[0]);
+                data[i][1] = String.valueOf(clientes.get(i)[1]);
+                data[i][2] = String.valueOf(clientes.get(i)[2]);
+                data[i][3] = String.valueOf(clientes.get(i)[3]);
+                data[i][4] = String.valueOf(clientes.get(i)[4]);
+                data[i][5] = String.valueOf(clientes.get(i)[5]);
+                data[i][6] = String.valueOf(clientes.get(i)[6]);
             }
-            String[] column = {"id", "nombre","tipo","descripcion"};
+            String[] column = {"id", "nombre","ci","telefono","birthday","sexo","direccion"};
             this.jt_listar.setModel(new DefaultTableModel(data, column));
     }
 
     private void limpiar() {
         this.jtf_id.setText("");
         this.jtf_nombre.setText("");
-        this.jta_descripcion.setText("");
-        this.jbt_editar.setEnabled(false);
-        this.jbt_eliminar.setEnabled(false);
-        this.jbt_crear.setEnabled(true);
+        this.jtf_ci.setText("");
+        this.jtf_telefono.setText("");
+        this.jdc_facha.setDate(null);
+        this.jcb_sexo.setSelectedIndex(0);
+        this.jta_direccion.setText("");
+        this.apagarbotonCrear(true);
     }
     
     private void apagarbotonCrear(boolean valor){
@@ -279,29 +343,27 @@ public class PPrenda extends javax.swing.JFrame {
         this.jbt_crear.setEnabled(valor);
     }
     
-    private String gettipo(){
-        switch(this.jcb_tipo.getSelectedItem().toString()){
+    private String getSexo(){
+        switch(this.jcb_sexo.getSelectedItem().toString()){
             case "MASCULINO":
                 return "'MAS'";
             case "FEMENINO":
                 return "'FEM'";
-            case "NEUTRO":
-                return "'NEU'";
         }
-        return "'NEU'";
+        return "'MAS'";
     }
     
-    private int settipo(String valor){
+    private int setSexo(String valor){
         switch(valor){
             case "MAS":
                 return 0;
             case "FEM":
                 return 1;
-            case "NEU":
-                return 2;
         }
-        return 2;
+        return 0;
     }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -319,20 +381,20 @@ public class PPrenda extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PPrenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PPrenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PPrenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PPrenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PPrenda().setVisible(true);
+                new PCliente().setVisible(true);
             }
         });
     }
@@ -344,16 +406,22 @@ public class PPrenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbt_crear;
     private javax.swing.JButton jbt_editar;
     private javax.swing.JButton jbt_eliminar;
-    private javax.swing.JComboBox<String> jcb_tipo;
+    private javax.swing.JComboBox<String> jcb_sexo;
+    private com.toedter.calendar.JDateChooser jdc_facha;
     private javax.swing.JTable jt_listar;
-    private javax.swing.JTextArea jta_descripcion;
+    private javax.swing.JTextArea jta_direccion;
+    private javax.swing.JTextField jtf_ci;
     private javax.swing.JTextField jtf_id;
     private javax.swing.JTextField jtf_nombre;
+    private javax.swing.JTextField jtf_telefono;
     // End of variables declaration//GEN-END:variables
 }
