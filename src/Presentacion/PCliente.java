@@ -292,19 +292,31 @@ public class PCliente extends javax.swing.JFrame {
 
     
     private void crear() {
-        this.ncliente.crear(this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion);
+        if (this.ncliente.crear(this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion)){
+            JOptionPane.showMessageDialog(null, "Se Inserto Correctamente", "Crear", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Insertar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void eliminar() {
-        this.ncliente.eliminar(this.id);
+        if (this.ncliente.eliminar(this.id)){
+            JOptionPane.showMessageDialog(null, "Se Elimino correctamente", "Eliminacion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Eliminar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void editar() {
-        this.ncliente.editar(this.id, this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion);
+        if (this.ncliente.editar(this.id, this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo,this.direccion)){
+            JOptionPane.showMessageDialog(null, "Se Edito Correctamen", "Edicion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Editar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }

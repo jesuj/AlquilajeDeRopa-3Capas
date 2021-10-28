@@ -25,7 +25,7 @@ public class DCliente {
         con = conn.conectar();
     }
 
-    public void crear() {
+    public boolean crear() {
         String query = "insert into clientes (nombre,ci,telefono,fecha_nacimiento,sexo,direccion) values(?,?,?,'"+this.fecha_nacimiento+"'," + this.sexo + ",?)";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -35,9 +35,11 @@ public class DCliente {
             pre.setString(4, this.direccion);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar db " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public ArrayList<Object[]> listar() {
@@ -57,7 +59,7 @@ public class DCliente {
         return clientes;
     }
 
-    public void editar() {
+    public boolean editar() {
         String query = "update clientes set nombre = ?, ci = ?, telefono = ?, fecha_nacimiento = '"+this.fecha_nacimiento+"', sexo = " + this.sexo + ", direccion = ? where id = ? ";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -68,21 +70,25 @@ public class DCliente {
             pre.setInt(5, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al editar " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
-    public void eliminar() {
+    public boolean eliminar() {
         String query = "delete from clientes where id = ?";
         try {
             PreparedStatement pre = con.prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public int getId() {

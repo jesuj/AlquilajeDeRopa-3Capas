@@ -280,9 +280,7 @@ public class PPrenda extends javax.swing.JFrame {
         this.jtf_id.setText("");
         this.jtf_nombre.setText("");
         this.jta_descripcion.setText("");
-        this.jbt_editar.setEnabled(false);
-        this.jbt_eliminar.setEnabled(false);
-        this.jbt_crear.setEnabled(true);
+        this.apagarbotonCrear(true);
     }
 
     private void apagarbotonCrear(boolean valor) {
