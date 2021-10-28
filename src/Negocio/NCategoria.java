@@ -14,25 +14,25 @@ public class NCategoria {
         this.dcategoria = new DCategoria();
     }
     
-    public void crear(String nombre, String descripcion){
+    public boolean crear(String nombre, String descripcion){
         this.dcategoria.setNombre(nombre);
         this.dcategoria.setDescripcion(descripcion);
-        this.dcategoria.crear();
+        return this.dcategoria.crear();
     } 
     
     public ArrayList<Object[]> listar(){
         return this.dcategoria.listar();
     }
     
-    public void editar(int id, String nombre,String descripcion){
+    public boolean editar(int id, String nombre,String descripcion){
         this.dcategoria.setId(id);
         this.dcategoria.setNombre(nombre);
         this.dcategoria.setDescripcion(descripcion);
-        this.dcategoria.editar();
+        return this.dcategoria.editar();
     }
     
-    public void eliminar(int id){
+    public boolean eliminar(int id){
         this.dcategoria.setId(id);
-        this.dcategoria.eliminar();
+        return this.dcategoria.eliminar();
     }
 }

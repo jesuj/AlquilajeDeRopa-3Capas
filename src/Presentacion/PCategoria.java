@@ -3,6 +3,7 @@ package Presentacion;
 import Negocio.NCategoria;
 import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -216,19 +217,31 @@ public class PCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void crear() {
-        this.ncategoria.crear(nombre, descripcion);
+        if (this.ncategoria.crear(nombre, descripcion)) {
+            JOptionPane.showMessageDialog(null, "Se Inserto Correctamente", "Crear", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Insertar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void eliminar() {
-        this.ncategoria.eliminar(this.id);
+        if (this.ncategoria.eliminar(this.id)) {
+            JOptionPane.showMessageDialog(null, "Se Elimino correctamente", "Eliminacion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Eliminar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void editar() {
-        this.ncategoria.editar(this.id, this.nombre, this.descripcion);
+        if (this.ncategoria.editar(this.id, this.nombre, this.descripcion)) {
+            JOptionPane.showMessageDialog(null, "Se Edito Correctamen", "Edicion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Editar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
@@ -236,14 +249,14 @@ public class PCategoria extends javax.swing.JFrame {
     private void listar() {
         ArrayList<Object[]> categorias = new ArrayList<>();
         categorias = ncategoria.listar();
-        String data[][]= (categorias.size() != 0)? new String[categorias.size()][categorias.get(0).length]:null ;
-            for (int i = 0; i < categorias.size(); i++) {
-                data[i][0] = String.valueOf(categorias.get(i)[0]);
-                data[i][1] = String.valueOf(categorias.get(i)[1]);
-                data[i][2] = String.valueOf(categorias.get(i)[2]);
-            }
-            String[] column = {"id", "nombre", "descripcion"};
-            this.jt_listar.setModel(new DefaultTableModel(data, column));
+        String data[][] = (categorias.size() != 0) ? new String[categorias.size()][categorias.get(0).length] : null;
+        for (int i = 0; i < categorias.size(); i++) {
+            data[i][0] = String.valueOf(categorias.get(i)[0]);
+            data[i][1] = String.valueOf(categorias.get(i)[1]);
+            data[i][2] = String.valueOf(categorias.get(i)[2]);
+        }
+        String[] column = {"id", "nombre", "descripcion"};
+        this.jt_listar.setModel(new DefaultTableModel(data, column));
 
 //        DefaultTableModel model = (DefaultTableModel) this.jt_listar.getModel();
 //        for (int i = 0; i < model.getRowCount(); i++) {
@@ -262,8 +275,8 @@ public class PCategoria extends javax.swing.JFrame {
         this.jbt_eliminar.setEnabled(false);
         this.jbt_crear.setEnabled(true);
     }
-    
-    private void apagarbotonCrear(boolean valor){
+
+    private void apagarbotonCrear(boolean valor) {
         this.jbt_editar.setEnabled(!valor);
         this.jbt_eliminar.setEnabled(!valor);
         this.jbt_crear.setEnabled(valor);

@@ -20,7 +20,7 @@ public class DCategoria {
         con = conn.conectar();
     }
     
-    public void crear(){
+    public boolean crear(){
         String query = "insert into categorias (nombre,descripcion) values(?,?)";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -28,9 +28,11 @@ public class DCategoria {
             pre.setString(2, this.descripcion);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar db "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
     public ArrayList listar(){
@@ -49,7 +51,7 @@ public class DCategoria {
         return categorias;
     }
     
-    public void editar(){
+    public boolean editar(){
         String query = "update categorias set nombre = ?, descripcion = ? where id = ? ";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -58,21 +60,25 @@ public class DCategoria {
             pre.setInt(3, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al editar "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
-    public void eliminar(){
+    public boolean eliminar(){
         String query = "delete from categorias where id = ?";
         try {
             PreparedStatement pre = con.prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
     public int getId() {
