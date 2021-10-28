@@ -2,6 +2,7 @@ package Presentacion;
 
 import Negocio.NPrenda;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,9 +15,9 @@ public class PPrenda extends javax.swing.JFrame {
     private String nombre;
     private String tipo;
     private String descripcion;
-    
+
     private NPrenda nprenda;
-    
+
     /**
      * Creates new form PPrenda
      */
@@ -27,7 +28,7 @@ public class PPrenda extends javax.swing.JFrame {
         this.apagarbotonCrear(true);
         this.jtf_id.setEditable(false);
         this.jtf_id.setEnabled(false);
-        this.setSize(761,456);
+        this.setSize(761, 456);
     }
 
     /**
@@ -211,7 +212,7 @@ public class PPrenda extends javax.swing.JFrame {
     private void jbt_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_crearActionPerformed
         // TODO add your handling code here:
         this.nombre = this.jtf_nombre.getText();
-        this.tipo= this.gettipo();
+        this.tipo = this.gettipo();
         this.descripcion = this.jta_descripcion.getText();
         this.crear();
     }//GEN-LAST:event_jbt_crearActionPerformed
@@ -220,7 +221,7 @@ public class PPrenda extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.nombre = this.jtf_nombre.getText();
-        this.tipo= this.gettipo();
+        this.tipo = this.gettipo();
         this.descripcion = this.jta_descripcion.getText();
         this.editar();
     }//GEN-LAST:event_jbt_editarActionPerformed
@@ -229,23 +230,34 @@ public class PPrenda extends javax.swing.JFrame {
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.eliminar();
     }//GEN-LAST:event_jbt_eliminarActionPerformed
-    
-    
+
     private void crear() {
-        System.out.println(nombre +" "+tipo+" "+descripcion);
-        this.nprenda.crear(nombre,tipo, descripcion);
+        System.out.println(nombre + " " + tipo + " " + descripcion);
+        if (this.nprenda.crear(nombre, tipo, descripcion)) {
+            JOptionPane.showMessageDialog(null, "Se Inserto Correctamente", "Crear", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Insertar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void eliminar() {
-        this.nprenda.eliminar(this.id);
+        if (this.nprenda.eliminar(this.id)) {
+            JOptionPane.showMessageDialog(null, "Se Elimino correctamente", "Eliminacion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Eliminar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void editar() {
-        this.nprenda.editar(this.id, this.nombre,this.tipo, this.descripcion);
+        if (this.nprenda.editar(this.id, this.nombre, this.tipo, this.descripcion)) {
+            JOptionPane.showMessageDialog(null, "Se Edito Correctamen", "Edicion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Editar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
@@ -253,15 +265,15 @@ public class PPrenda extends javax.swing.JFrame {
     private void listar() {
         ArrayList<Object[]> prendas = new ArrayList<>();
         prendas = this.nprenda.listar();
-        String data[][]= (prendas.size() != 0)? new String[prendas.size()][prendas.get(0).length]:null ;
-            for (int i = 0; i < prendas.size(); i++) {
-                data[i][0] = String.valueOf(prendas.get(i)[0]);
-                data[i][1] = String.valueOf(prendas.get(i)[1]);
-                data[i][2] = String.valueOf(prendas.get(i)[2]);
-                data[i][3] = String.valueOf(prendas.get(i)[3]);
-            }
-            String[] column = {"id", "nombre","tipo","descripcion"};
-            this.jt_listar.setModel(new DefaultTableModel(data, column));
+        String data[][] = (prendas.size() != 0) ? new String[prendas.size()][prendas.get(0).length] : null;
+        for (int i = 0; i < prendas.size(); i++) {
+            data[i][0] = String.valueOf(prendas.get(i)[0]);
+            data[i][1] = String.valueOf(prendas.get(i)[1]);
+            data[i][2] = String.valueOf(prendas.get(i)[2]);
+            data[i][3] = String.valueOf(prendas.get(i)[3]);
+        }
+        String[] column = {"id", "nombre", "tipo", "descripcion"};
+        this.jt_listar.setModel(new DefaultTableModel(data, column));
     }
 
     private void limpiar() {
@@ -272,15 +284,15 @@ public class PPrenda extends javax.swing.JFrame {
         this.jbt_eliminar.setEnabled(false);
         this.jbt_crear.setEnabled(true);
     }
-    
-    private void apagarbotonCrear(boolean valor){
+
+    private void apagarbotonCrear(boolean valor) {
         this.jbt_editar.setEnabled(!valor);
         this.jbt_eliminar.setEnabled(!valor);
         this.jbt_crear.setEnabled(valor);
     }
-    
-    private String gettipo(){
-        switch(this.jcb_tipo.getSelectedItem().toString()){
+
+    private String gettipo() {
+        switch (this.jcb_tipo.getSelectedItem().toString()) {
             case "MASCULINO":
                 return "'MAS'";
             case "FEMENINO":
@@ -290,9 +302,9 @@ public class PPrenda extends javax.swing.JFrame {
         }
         return "'NEU'";
     }
-    
-    private int settipo(String valor){
-        switch(valor){
+
+    private int settipo(String valor) {
+        switch (valor) {
             case "MAS":
                 return 0;
             case "FEM":
@@ -302,6 +314,7 @@ public class PPrenda extends javax.swing.JFrame {
         }
         return 2;
     }
+
     /**
      * @param args the command line arguments
      */

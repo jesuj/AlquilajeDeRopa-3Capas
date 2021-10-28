@@ -21,7 +21,7 @@ public class DPrenda {
         con = conn.conectar();
     }
     
-    public void crear(){
+    public boolean crear(){
         String query = "insert into prendas (nombre,tipo,descripcion) values(?,"+this.tipo+",?)";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -29,9 +29,11 @@ public class DPrenda {
             pre.setString(2, this.descripcion);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar db "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
     public ArrayList listar(){
@@ -50,7 +52,7 @@ public class DPrenda {
         return prendas;
     }
     
-    public void editar(){
+    public boolean editar(){
         String query = "update prendas set nombre = ?, tipo = "+this.tipo+", descripcion = ? where id = ? ";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -59,21 +61,25 @@ public class DPrenda {
             pre.setInt(3, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al editar "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
-    public void eliminar(){
+    public boolean eliminar(){
         String query = "delete from prendas where id = ?";
         try {
             PreparedStatement pre = con.prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar "+e,"Error",JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public int getId() {
