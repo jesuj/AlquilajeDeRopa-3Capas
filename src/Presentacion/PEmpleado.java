@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -277,19 +278,31 @@ public class PEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_eliminarActionPerformed
 
      private void crear() {
-        this.nempleado.crear(this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo);
+        if (this.nempleado.crear(this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo)){
+            JOptionPane.showMessageDialog(null, "Se Inserto Correctamente", "Crear", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Insertar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void eliminar() {
-        this.nempleado.eliminar(this.id);
+        if (this.nempleado.eliminar(this.id)){
+            JOptionPane.showMessageDialog(null, "Se Elimino correctamente", "Eliminacion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Eliminar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }
 
     private void editar() {
-        this.nempleado.editar(this.id, this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo);
+        if (this.nempleado.editar(this.id, this.nombre,this.ci, this.telefono,this.fecha_nacimiento,this.sexo)){
+            JOptionPane.showMessageDialog(null, "Se Edito Correctamen", "Edicion", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo Editar", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
         this.listar();
         this.limpiar();
     }

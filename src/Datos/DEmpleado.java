@@ -25,7 +25,7 @@ public class DEmpleado {
         con = conn.conectar();
     }
     
-    public void crear() {
+    public boolean crear() {
         String query = "insert into empleados (nombre,ci,telefono,fecha_nacimiento,sexo) values(?,?,?,'"+this.fecha_nacimiento+"'," + this.sexo + ")";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -34,9 +34,11 @@ public class DEmpleado {
             pre.setString(3, this.telefono);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar db " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public ArrayList<Object[]> listar() {
@@ -56,7 +58,7 @@ public class DEmpleado {
         return clientes;
     }
 
-    public void editar() {
+    public boolean editar() {
         String query = "update empleados set nombre = ?, ci = ?, telefono = ?, fecha_nacimiento = '"+this.fecha_nacimiento+"', sexo = " + this.sexo + " where id = ? ";
         try {
             PreparedStatement pre = con.prepareStatement(query);
@@ -66,21 +68,25 @@ public class DEmpleado {
             pre.setInt(4, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al editar " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
-    public void eliminar() {
+    public boolean eliminar() {
         String query = "delete from empleados where id = ?";
         try {
             PreparedStatement pre = con.prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public int getId() {
