@@ -11,12 +11,12 @@ public class NVestimenta {
     
     private DVestimenta dvestimenta;
     private ArrayList<NDetallePrenda> detallePrenda;
-    private NDetallePrenda ndetallePrenda;
+    
 
     public NVestimenta() {
         dvestimenta = new DVestimenta();
         detallePrenda =new ArrayList<>();
-        ndetallePrenda = new NDetallePrenda();
+        
     }
     
     
@@ -54,29 +54,32 @@ public class NVestimenta {
 
     private boolean guardarDetalle(ArrayList<Object[]> detallePrenda,int id_vestimenta) {
         this.detallePrenda.clear();
+        NDetallePrenda ndetallePrenda = new NDetallePrenda();
         for (Object[] detalle : detallePrenda) {          
             this.detallePrenda.add(new NDetallePrenda(id_vestimenta,
                     Integer.valueOf(detalle[0].toString().split("-")[0]),
                     Integer.valueOf(detalle[1].toString()),
                     detalle[2].toString()));
         }
-        return this.ndetallePrenda.crear(this.detallePrenda);
+        return ndetallePrenda.crear(this.detallePrenda);
     }
     
     public ArrayList<Object[]> listarDetallePrenda(int id_vestimenta){
+        NDetallePrenda ndetallePrenda = new NDetallePrenda();
         ndetallePrenda.setId_vestimentas(id_vestimenta);
         return ndetallePrenda.listar();
     }
 
     private boolean editarDetallePrenda(int id_vestimenta, ArrayList<Object[]> agregardetallePrenda, ArrayList<Object[]> eliminardetallePrenda) {
         this.detallePrenda.clear();
+        NDetallePrenda ndetallePrenda = new NDetallePrenda();
         for (Object[] detalle : agregardetallePrenda) {          
             this.detallePrenda.add(new NDetallePrenda(id_vestimenta,
                     Integer.valueOf(detalle[0].toString().split("-")[0]),
                     Integer.valueOf(detalle[1].toString()),
                     detalle[2].toString()));
         }
-        boolean crear = this.ndetallePrenda.crear(detallePrenda);
+        boolean crear = ndetallePrenda.crear(detallePrenda);
         this.detallePrenda.clear();
         for (Object[] detalle : eliminardetallePrenda) {          
             this.detallePrenda.add(new NDetallePrenda(id_vestimenta,
@@ -84,7 +87,7 @@ public class NVestimenta {
                     Integer.valueOf(detalle[1].toString()),
                     detalle[2].toString()));
         }
-        return crear && this.ndetallePrenda.eliminar(detallePrenda);
+        return crear && ndetallePrenda.eliminar(detallePrenda);
         
     }
 }
