@@ -28,13 +28,13 @@ public class PReserva extends javax.swing.JFrame {
     private String fechaInicio;
     private String fechaFin;
     private boolean estado;
-    
+
     private int id_cliente;
-    
+
     private NCliente ncliente;
 
     private NVestimenta nvestimenta;
-    
+
     private NReserva nreserva;
     private ArrayList<Object[]> agregardetalleReserva;
     private ArrayList<Object[]> eliminardetalleReserva;
@@ -46,10 +46,10 @@ public class PReserva extends javax.swing.JFrame {
         initComponents();
         this.jtf_id.setEditable(false);
         this.jtf_id.setEnabled(false);
-        
+
         this.ncliente = new NCliente();
         this.nvestimenta = new NVestimenta();
-        
+
         this.nreserva = new NReserva();
 
         this.cargarCliente();
@@ -302,6 +302,7 @@ public class PReserva extends javax.swing.JFrame {
         this.apagarbotonCrear(true);
         String[] column = {"prenda", "stock", "color"};
         this.jt_listar_vestimenta.setModel(new DefaultTableModel(null, column));
+        this.cargarVestimenta();
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jtf_garantiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_garantiaActionPerformed
@@ -351,13 +352,13 @@ public class PReserva extends javax.swing.JFrame {
         this.clearLista();
 
         int rowSelected = this.jt_listar_reserva.getSelectedRow();
-        
+
         this.jtf_id.setText(this.jt_listar_reserva.getValueAt(rowSelected, 0).toString());
         this.jcb_cliente.setSelectedItem(this.jt_listar_reserva.getValueAt(rowSelected, 1).toString());
         this.jtf_titulo.setText(this.jt_listar_reserva.getValueAt(rowSelected, 2).toString());
         this.jtf_garantia.setText(this.jt_listar_reserva.getValueAt(rowSelected, 3).toString());
-        String fechaInicio =this.jt_listar_reserva.getValueAt(rowSelected, 4).toString();
-        String fechaFin =this.jt_listar_reserva.getValueAt(rowSelected, 5).toString();
+        String fechaInicio = this.jt_listar_reserva.getValueAt(rowSelected, 4).toString();
+        String fechaFin = this.jt_listar_reserva.getValueAt(rowSelected, 5).toString();
         try {
             this.jdc_fachaInicio.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio));
             this.jdc_fachaFin.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaFin));
@@ -365,11 +366,11 @@ public class PReserva extends javax.swing.JFrame {
             Logger.getLogger(PCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.jcb_estado.setSelectedIndex(getIndexEstado(this.jt_listar_reserva.getValueAt(rowSelected, 6).toString()));
-        
+
         this.apagarbotonCrear(false);
 
         int id_vestimenta = (this.jtf_id.getText() == "") ? 0 : Integer.valueOf(this.jtf_id.getText());
-        
+
         listardetalleReserva(id_vestimenta);
     }//GEN-LAST:event_jt_listar_reservaMouseClicked
 
@@ -378,7 +379,7 @@ public class PReserva extends javax.swing.JFrame {
         Object[] agregar = {
             this.jcb_vestimenta.getSelectedItem().toString(),
             this.jsp_cantidad.getValue().toString()};
-        
+
         agregardetalleReserva.add(agregar);
 
         int id_reserva = (this.jtf_id.getText().isEmpty()) ? 0 : Integer.valueOf(this.jtf_id.getText());
@@ -412,7 +413,7 @@ public class PReserva extends javax.swing.JFrame {
         for (int i = 0; i < lista.size(); i++) {
             String vestimenta = String.valueOf(lista.get(i)[0]);
             String cantidad = String.valueOf(lista.get(i)[1]);
-            if (vestimentaBuscar == vestimenta && cantidadBuscar == cantidad ) {
+            if (vestimentaBuscar == vestimenta && cantidadBuscar == cantidad) {
                 lista.remove(i);
                 return true;
             }
@@ -421,7 +422,7 @@ public class PReserva extends javax.swing.JFrame {
     }
 
     private void crear() {
-        if (this.nreserva.crear(this.id_cliente,this.titulo,this.garantia,this.fechaInicio,this.fechaFin,this.estado, this.agregardetalleReserva)) {
+        if (this.nreserva.crear(this.id_cliente, this.titulo, this.garantia, this.fechaInicio, this.fechaFin, this.estado, this.agregardetalleReserva)) {
             JOptionPane.showMessageDialog(null, "Se Inserto Correctamente", "Crear", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo Insertar", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -441,7 +442,7 @@ public class PReserva extends javax.swing.JFrame {
     }
 
     private void editar() {
-        if (this.nreserva.editar(this.id, this.id_cliente,this.titulo,this.garantia,this.fechaInicio,this.fechaFin,this.estado, agregardetalleReserva, eliminardetalleReserva)) {
+        if (this.nreserva.editar(this.id, this.id_cliente, this.titulo, this.garantia, this.fechaInicio, this.fechaFin, this.estado, agregardetalleReserva, eliminardetalleReserva)) {
             JOptionPane.showMessageDialog(null, "Se Edito Correctamen", "Edicion", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo Editar", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -463,8 +464,17 @@ public class PReserva extends javax.swing.JFrame {
             data[i][5] = String.valueOf(reservas.get(i)[5]);
             data[i][6] = String.valueOf(reservas.get(i)[6]);
         }
-        String[] column = {"id", "cliente","titulo", "garantia", "fechaInicio", "fechaFin", "estado"};
+        String[] column = {"id", "cliente", "titulo", "garantia", "fechaInicio", "fechaFin", "estado"};
         this.jt_listar_reserva.setModel(new DefaultTableModel(data, column));
+    }
+
+    public int indiceEliminar(String id, ArrayList<Object[]> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (id.equals(lista.get(i)[0].toString())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void listardetalleReserva(int id_reserva) {
@@ -472,6 +482,8 @@ public class PReserva extends javax.swing.JFrame {
         detalleReserva = (id_reserva == 0) ? null : this.nreserva.listarDetalleReserva(id_reserva);
         int cantidaddetalleprenda = (detalleReserva == null) ? 0 : detalleReserva.size();
         int cantidadagregado = (agregardetalleReserva == null) ? 0 : agregardetalleReserva.size();
+
+        ActualizarVestimenta(cantidaddetalleprenda, detalleReserva);
 
         int x = cantidaddetalleprenda + cantidadagregado;
         System.out.println(x);
@@ -490,8 +502,43 @@ public class PReserva extends javax.swing.JFrame {
             i++;
             j++;
         }
-        String[] column = {"prenda", "cantidad"};
+        String[] column = {"vestimenta", "cantidad"};
         this.jt_listar_vestimenta.setModel(new DefaultTableModel(data, column));
+    }
+
+    private void ActualizarVestimenta(int cantidaddetalleprenda, ArrayList<Object[]> detalleReserva) {
+        ArrayList<Object[]> vestimentas = new ArrayList<>();
+        vestimentas = this.nvestimenta.listar();
+        if (cantidaddetalleprenda != 0) {
+            for (Object[] detalle : detalleReserva) {
+                String id = detalle[0].toString().split("-")[0];
+                int indiceAEliminar = indiceEliminar(id, vestimentas);
+                if (indiceAEliminar != -1) {
+                    vestimentas.remove(indiceAEliminar);
+                }
+            }
+        }
+
+        for (Object[] agregar : agregardetalleReserva) {
+            String id = agregar[0].toString().split("-")[0];
+            int indiceAEliminar = indiceEliminar(id, vestimentas);
+            if (indiceAEliminar != -1) {
+                vestimentas.remove(indiceAEliminar);
+            }
+        }
+        this.jcb_vestimenta.removeAllItems();
+        if (vestimentas.isEmpty()) {
+            this.jbt_agregar.setEnabled(false);
+            this.jcb_vestimenta.setEnabled(false);
+            this.jsp_cantidad.setEnabled(false);
+        } else {
+            for (Object[] vestimenta : vestimentas) {
+                this.jcb_vestimenta.addItem(vestimenta[0] + "-" + vestimenta[1]);
+            }
+            this.jbt_agregar.setEnabled(true);
+            this.jcb_vestimenta.setEnabled(true);
+            this.jsp_cantidad.setEnabled(true);
+        }
     }
 
     private void cargarCliente() {
@@ -503,11 +550,15 @@ public class PReserva extends javax.swing.JFrame {
     }
 
     private void cargarVestimenta() {
+        this.jcb_vestimenta.removeAllItems();
         ArrayList<Object[]> vestimentas = new ArrayList<>();
         vestimentas = this.nvestimenta.listar();
         for (Object[] vestimenta : vestimentas) {
             this.jcb_vestimenta.addItem(vestimenta[0] + "-" + vestimenta[1]);
         }
+        this.jbt_agregar.setEnabled(true);
+        this.jcb_vestimenta.setEnabled(true);
+        this.jsp_cantidad.setEnabled(true);
     }
 
     private void limpiar() {
@@ -517,17 +568,16 @@ public class PReserva extends javax.swing.JFrame {
         this.jtf_garantia.setText("");
         this.jdc_fachaInicio.setDate(null);
         this.jdc_fachaFin.setDate(null);
-        
+
         this.jcb_estado.setSelectedIndex(0);
         this.jcb_cliente.setSelectedIndex(0);
 
         //Vestimenta
-        this.jcb_vestimenta.setSelectedIndex(0);
+        //this.jcb_vestimenta.setSelectedIndex(0);
         this.jsp_cantidad.setValue(0);
-        
 
         this.apagarbotonCrear(true);
-        
+
         //limpiar listas
         this.agregardetalleReserva.clear();
         this.eliminardetalleReserva.clear();
@@ -616,11 +666,11 @@ public class PReserva extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private boolean getEstado(int selectedIndex) {
-        return (selectedIndex == 0)? true: false;
+        return (selectedIndex == 0) ? true : false;
     }
 
     private int getIndexEstado(String valor) {
-        return (valor == "true")? 0:1;
+        return (valor == "true") ? 0 : 1;
     }
 
 }

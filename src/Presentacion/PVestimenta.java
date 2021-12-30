@@ -294,6 +294,7 @@ public class PVestimenta extends javax.swing.JFrame {
         this.apagarbotonCrear(true);
         String[] column = {"prenda", "stock", "color"};
         this.jt_listar_prendas.setModel(new DefaultTableModel(null, column));
+        this.cargarPrenda();
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jtf_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_nombreActionPerformed
@@ -354,7 +355,7 @@ public class PVestimenta extends javax.swing.JFrame {
         this.apagarbotonCrear(false);
 
         int id_vestimenta = (this.jt_listar_vestimentas.getValueAt(rowSelected, 0).toString() == "") ? 0 : Integer.valueOf(this.jt_listar_vestimentas.getValueAt(rowSelected, 0).toString());
-        
+
         listardetallePrenda(id_vestimenta);
     }//GEN-LAST:event_jt_listar_vestimentasMouseClicked
 
@@ -387,6 +388,15 @@ public class PVestimenta extends javax.swing.JFrame {
             dm.removeRow(rowSelect);
         }
     }//GEN-LAST:event_jbt_quitarActionPerformed
+
+    public int indiceEliminar(String id, ArrayList<Object[]> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (id.equals(lista.get(i)[0].toString())) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     private boolean buscarEliminar(ArrayList<Object[]> lista, Object[] buscar) {
         String prendaBuscar = String.valueOf(buscar[0]);
@@ -456,6 +466,8 @@ public class PVestimenta extends javax.swing.JFrame {
         int cantidaddetalleprenda = (detallePrenda == null) ? 0 : detallePrenda.size();
         int cantidadagregado = (agregardetallePrenda == null) ? 0 : agregardetallePrenda.size();
 
+        ActualizarPrenda(cantidaddetalleprenda, detallePrenda);
+
         int x = cantidaddetalleprenda + cantidadagregado;
         System.out.println(x);
 
@@ -487,6 +499,43 @@ public class PVestimenta extends javax.swing.JFrame {
         }
     }
 
+    private void ActualizarPrenda(int cantidaddetalleprenda, ArrayList<Object[]> detallePrenda) {
+        ArrayList<Object[]> vestimentas = new ArrayList<>();
+        vestimentas = this.nprenda.listar();
+        if (cantidaddetalleprenda != 0) {
+            for (Object[] detalle : detallePrenda) {
+                String id = detalle[0].toString().split("-")[0];
+                int indiceAEliminar = indiceEliminar(id, vestimentas);
+                if (indiceAEliminar != -1) {
+                    vestimentas.remove(indiceAEliminar);
+                }
+            }
+        }
+
+        for (Object[] agregar : agregardetallePrenda) {
+            String id = agregar[0].toString().split("-")[0];
+            int indiceAEliminar = indiceEliminar(id, vestimentas);
+            if (indiceAEliminar != -1) {
+                vestimentas.remove(indiceAEliminar);
+            }
+        }
+        this.jcb_prenda.removeAllItems();
+        if (vestimentas.isEmpty()) {
+            this.jbt_agregar.setEnabled(false);
+            this.jcb_prenda.setEnabled(false);
+            this.jtf_color.setEnabled(false);
+            this.jsp_stock.setEnabled(false);
+        } else {
+            for (Object[] vestimenta : vestimentas) {
+                this.jcb_prenda.addItem(vestimenta[0] + "-" + vestimenta[1]);
+            }
+            this.jbt_agregar.setEnabled(true);
+            this.jcb_prenda.setEnabled(true);
+            this.jtf_color.setEnabled(true);
+            this.jsp_stock.setEnabled(true);
+        }
+    }
+
     private void cargarCategoria() {
         ArrayList<Object[]> categorias = new ArrayList<>();
         categorias = this.ncategoria.listar();
@@ -496,11 +545,16 @@ public class PVestimenta extends javax.swing.JFrame {
     }
 
     private void cargarPrenda() {
+        this.jcb_prenda.removeAllItems();
         ArrayList<Object[]> categorias = new ArrayList<>();
         categorias = this.nprenda.listar();
         for (Object[] empleado : categorias) {
             this.jcb_prenda.addItem(empleado[0] + "-" + empleado[1]);
         }
+        this.jbt_agregar.setEnabled(true);
+        this.jcb_prenda.setEnabled(true);
+        this.jtf_color.setEnabled(true);
+        this.jsp_stock.setEnabled(true);
     }
 
     private void limpiar() {
@@ -513,12 +567,12 @@ public class PVestimenta extends javax.swing.JFrame {
         this.jcb_empleado.setSelectedIndex(0);
 
         //Prendas
-        this.jcb_prenda.setSelectedIndex(0);
+        //this.jcb_prenda.setSelectedIndex(0);
         this.jtf_color.setText("");
         this.jsp_stock.setValue(0);
 
         this.apagarbotonCrear(true);
-        
+
         //limpiar listas
         this.agregardetallePrenda.clear();
         this.eliminardetallePrenda.clear();

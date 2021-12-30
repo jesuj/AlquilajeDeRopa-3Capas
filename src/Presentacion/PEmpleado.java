@@ -23,7 +23,7 @@ public class PEmpleado extends javax.swing.JFrame {
     private String telefono;
     private String fecha_nacimiento;
     private String sexo;
-    private String direccion;
+    
     
     private NEmpleado nempleado;
     
@@ -78,7 +78,7 @@ public class PEmpleado extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cliente");
+        jLabel1.setText("Empleado");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 740, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
