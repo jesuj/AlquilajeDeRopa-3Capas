@@ -15,7 +15,6 @@ public class EnReserva implements State{
     public void entregar(Estado estado) {
         estado.setEstado(new Entregado());
         estado.setMensaje("Entregando el Traje");
-        estado.setValor(1);
         estado.setNombre("ENTREGADO");
     }
 

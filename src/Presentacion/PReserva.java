@@ -447,7 +447,7 @@ public class PReserva extends javax.swing.JFrame {
         }
         
         JOptionPane.showMessageDialog(null,this.patronEstado.getMensaje());
-        
+        this.jcb_estado.setSelectedItem(this.patronEstado.getNombre());
     }//GEN-LAST:event_jcb_estadoActionPerformed
 
     private void jcb_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_estadoMouseClicked

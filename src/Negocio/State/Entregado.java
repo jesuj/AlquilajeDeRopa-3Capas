@@ -20,7 +20,6 @@ public class Entregado implements State {
     public void revision(Estado estado) {
         estado.setEstado(new Revision());
         estado.setMensaje("El traje estara en Revision");
-        estado.setValor(2);
         estado.setNombre("REVISION");
     }
 
@@ -28,7 +27,6 @@ public class Entregado implements State {
     public void devolucion(Estado estado) {
         estado.setEstado(new Devuelto());
         estado.setMensaje("Traje Devuelto Exitosamente");
-        estado.setValor(3);
         estado.setNombre("DEVUELTO");
     }
     

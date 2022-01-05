@@ -25,7 +25,6 @@ public class Revision implements State {
     public void devolucion(Estado estado) {
         estado.setEstado(new Devuelto());
         estado.setMensaje("El traje devuelto exitosamente");
-        estado.setValor(3);
         estado.setNombre("DEVUELTO");
     }
     
