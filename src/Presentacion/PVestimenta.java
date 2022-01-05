@@ -310,6 +310,7 @@ public class PVestimenta extends javax.swing.JFrame {
         this.crear();
         String[] column = {"prenda", "stock", "color"};
         this.jt_listar_prendas.setModel(new DefaultTableModel(null, column));
+        cargarPrenda();
     }//GEN-LAST:event_jbt_crearActionPerformed
 
     private void jbt_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_editarActionPerformed

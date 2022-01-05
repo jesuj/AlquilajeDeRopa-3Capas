@@ -6,6 +6,7 @@ import Negocio.NEmpleado;
 import Negocio.NPrenda;
 import Negocio.NReserva;
 import Negocio.NVestimenta;
+import Negocio.State.Estado;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class PReserva extends javax.swing.JFrame {
     private String garantia;
     private String fechaInicio;
     private String fechaFin;
-    private boolean estado;
+    private String estado;
 
     private int id_cliente;
 
@@ -39,6 +40,8 @@ public class PReserva extends javax.swing.JFrame {
     private ArrayList<Object[]> agregardetalleReserva;
     private ArrayList<Object[]> eliminardetalleReserva;
 
+    //Patron Estado
+    private Estado patronEstado;
     /**
      * Creates new form PVestimenta
      */
@@ -60,6 +63,8 @@ public class PReserva extends javax.swing.JFrame {
 
         this.listar();
         this.jtf_id.setText("");
+        
+        this.patronEstado = new Estado();
     }
 
     /**
@@ -78,7 +83,7 @@ public class PReserva extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jtf_id = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        jl_limpiador = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtf_garantia = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -144,15 +149,15 @@ public class PReserva extends javax.swing.JFrame {
         jtf_id.setBorder(null);
         jPanel2.add(jtf_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 70, 22));
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/limpiar.png"))); // NOI18N
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        jl_limpiador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jl_limpiador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/limpiar.png"))); // NOI18N
+        jl_limpiador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jl_limpiador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                jl_limpiadorMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 30, 40));
+        jPanel2.add(jl_limpiador, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 30, 40));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel2.setText("garantia:");
@@ -197,7 +202,17 @@ public class PReserva extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 510, 180));
 
-        jcb_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ENPROCESO", "ENTREGADO" }));
+        jcb_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ENRESERVA", "ENTREGADO", "REVISION", "DEVUELTO" }));
+        jcb_estado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcb_estadoMouseClicked(evt);
+            }
+        });
+        jcb_estado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_estadoActionPerformed(evt);
+            }
+        });
         jPanel2.add(jcb_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 190, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -296,14 +311,15 @@ public class PReserva extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void jl_limpiadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_limpiadorMouseClicked
         // TODO add your handling code here:
         this.jtf_id.setText("");
         this.apagarbotonCrear(true);
         String[] column = {"prenda", "stock", "color"};
         this.jt_listar_vestimenta.setModel(new DefaultTableModel(null, column));
         this.cargarVestimenta();
-    }//GEN-LAST:event_jLabel5MouseClicked
+        this.patronEstado = new Estado();
+    }//GEN-LAST:event_jl_limpiadorMouseClicked
 
     private void jtf_garantiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_garantiaActionPerformed
         // TODO add your handling code here:
@@ -314,7 +330,9 @@ public class PReserva extends javax.swing.JFrame {
         this.garantia = this.jtf_garantia.getText();
         this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
         this.fechaFin = this.jdc_fachaFin.getDate().toString();
-        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
+        
+//        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
+        this.estado = this.patronEstado.getNombre();
         this.id_cliente = Integer.valueOf(this.jcb_cliente.getSelectedItem().toString().split("-")[0]);
         this.crear();
         String[] column = {"vestimenta", "cantidad"};
@@ -328,7 +346,9 @@ public class PReserva extends javax.swing.JFrame {
         this.garantia = this.jtf_garantia.getText();
         this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
         this.fechaFin = this.jdc_fachaFin.getDate().toString();
-        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
+        
+//        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
+        this.estado = this.patronEstado.getNombre();
         this.id_cliente = Integer.valueOf(this.jcb_cliente.getSelectedItem().toString().split("-")[0]);
         this.editar();
         String[] column = {"vestimenta", "cantidad"};
@@ -365,7 +385,9 @@ public class PReserva extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(PCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.jcb_estado.setSelectedIndex(getIndexEstado(this.jt_listar_reserva.getValueAt(rowSelected, 6).toString()));
+        String estadoSeleccionado = this.jt_listar_reserva.getValueAt(rowSelected, 6).toString();
+        this.jcb_estado.setSelectedItem(estadoSeleccionado);
+        this.patronEstado = new Estado(estadoSeleccionado);
 
         this.apagarbotonCrear(false);
 
@@ -406,6 +428,31 @@ public class PReserva extends javax.swing.JFrame {
     private void jtf_tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_tituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_tituloActionPerformed
+
+    private void jcb_estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_estadoActionPerformed
+        // Patron State
+        switch(jcb_estado.getSelectedIndex()){
+            case 0:
+                this.patronEstado.getEstado().reservar(patronEstado);
+                break;
+            case 1:
+                this.patronEstado.getEstado().entregar(patronEstado);
+                break;                
+            case 2:
+                this.patronEstado.getEstado().revision(patronEstado);
+                break;
+            case 3:
+                this.patronEstado.getEstado().devolucion(patronEstado);
+                break;
+        }
+        
+        JOptionPane.showMessageDialog(null,this.patronEstado.getMensaje());
+        
+    }//GEN-LAST:event_jcb_estadoActionPerformed
+
+    private void jcb_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_estadoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcb_estadoMouseClicked
 
     private boolean buscarEliminar(ArrayList<Object[]> lista, Object[] buscar) {
         String vestimentaBuscar = String.valueOf(buscar[0]);
@@ -638,7 +685,6 @@ public class PReserva extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
@@ -657,6 +703,7 @@ public class PReserva extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_vestimenta;
     private com.toedter.calendar.JDateChooser jdc_fachaFin;
     private com.toedter.calendar.JDateChooser jdc_fachaInicio;
+    private javax.swing.JLabel jl_limpiador;
     private javax.swing.JSpinner jsp_cantidad;
     private javax.swing.JTable jt_listar_reserva;
     private javax.swing.JTable jt_listar_vestimenta;
@@ -665,12 +712,5 @@ public class PReserva extends javax.swing.JFrame {
     private javax.swing.JTextField jtf_titulo;
     // End of variables declaration//GEN-END:variables
 
-    private boolean getEstado(int selectedIndex) {
-        return (selectedIndex == 0) ? true : false;
-    }
-
-    private int getIndexEstado(String valor) {
-        return (valor == "true") ? 0 : 1;
-    }
 
 }

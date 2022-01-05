@@ -17,7 +17,7 @@ public class NReserva {
     }
     
     
-    public boolean crear(int id_cliente, String titulo, String garantia, String fechaInicio,String fechaFin, boolean estado, ArrayList<Object[]> detallereserva){
+    public boolean crear(int id_cliente, String titulo, String garantia, String fechaInicio,String fechaFin, String estado, ArrayList<Object[]> detallereserva){
         this.dreserva.setId_cliente(id_cliente);
         this.dreserva.setTitulo(titulo);
         this.dreserva.setGarantia(garantia);
@@ -33,7 +33,7 @@ public class NReserva {
         return this.dreserva.listar();
     }
     
-    public boolean editar(int id,int id_cliente, String titulo, String garantia, String fechaInicio,String fechaFin, boolean estado, ArrayList<Object[]> agregardetalleReserva, ArrayList<Object[]> eliminardetalleReserva){
+    public boolean editar(int id,int id_cliente, String titulo, String garantia, String fechaInicio,String fechaFin, String estado, ArrayList<Object[]> agregardetalleReserva, ArrayList<Object[]> eliminardetalleReserva){
         this.dreserva.setId(id);
         this.dreserva.setId_cliente(id_cliente);
         this.dreserva.setTitulo(titulo);

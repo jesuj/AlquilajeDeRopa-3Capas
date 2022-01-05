@@ -13,7 +13,7 @@ public class DReserva {
     private String garantia;
     private String fechaInicio;
     private String fechaFin;
-    private boolean estado;
+    private String estado;
     
     private int id_cliente;
     
@@ -32,7 +32,7 @@ public class DReserva {
             pre.setInt(1, this.id_cliente);
             pre.setString(2, this.titulo);
             pre.setString(3, this.garantia);
-            pre.setBoolean(4, this.estado);
+            pre.setString(4, this.estado);
             pre.execute();
             
             pre = con.prepareStatement(query2);
@@ -54,7 +54,7 @@ public class DReserva {
             PreparedStatement pre = con.prepareStatement(query);
             ResultSet result = pre.executeQuery();
             while(result.next()){
-                vestimentas.add(new Object[]{result.getInt(1),result.getInt(2)+"-"+result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7),result.getBoolean(8)});
+                vestimentas.add(new Object[]{result.getInt(1),result.getInt(2)+"-"+result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7),result.getString(8)});
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al listar "+e,"Error",JOptionPane.ERROR_MESSAGE);
@@ -69,7 +69,7 @@ public class DReserva {
             PreparedStatement pre = con.prepareStatement(query);
             pre.setString(1, this.titulo);
             pre.setString(2, this.garantia);
-            pre.setBoolean(3, this.estado);
+            pre.setString(3, this.estado);
             pre.setInt(4, this.id_cliente);
             pre.setInt(5, this.id);
             pre.execute();
@@ -135,11 +135,11 @@ public class DReserva {
         this.fechaFin = fechaFin;
     }
 
-    public boolean isEstado() {
+    public String isEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
