@@ -1,5 +1,9 @@
 package Presentacion;
 
+import Negocio.Decorador.CarnetIdentidad;
+import Negocio.Decorador.ComponenteGarantia;
+import Negocio.Decorador.GarantiaBase;
+import Negocio.Decorador.Joya;
 import Negocio.NCategoria;
 import Negocio.NCliente;
 import Negocio.NEmpleado;
@@ -43,6 +47,9 @@ public class PReserva extends javax.swing.JFrame {
     //Patron Estado
     private Estado patronEstado;
     
+    //Patron Decorador
+    private GarantiaBase patronDecorador;
+    
     private boolean ispresionado;
     /**
      * Creates new form PVestimenta
@@ -67,6 +74,8 @@ public class PReserva extends javax.swing.JFrame {
         this.jtf_id.setText("");
         
         this.patronEstado = new Estado();
+        
+        this.patronDecorador = new GarantiaBase();
     }
 
     /**
@@ -100,6 +109,8 @@ public class PReserva extends javax.swing.JFrame {
         jdc_fachaInicio = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         jtf_titulo = new javax.swing.JTextField();
+        jch_ci = new javax.swing.JCheckBox();
+        jch_joya = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jsp_cantidad = new javax.swing.JSpinner();
@@ -174,11 +185,11 @@ public class PReserva extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel7.setText("fechaInicio:");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 70, 20));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, 70, 20));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel9.setText("fechaFin:");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 60, 20));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, 60, 20));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel6.setText("Cliente:");
@@ -222,10 +233,10 @@ public class PReserva extends javax.swing.JFrame {
         jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 20));
 
         jdc_fachaFin.setDateFormatString("yyyy-MM-dd");
-        jPanel2.add(jdc_fachaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 140, 30));
+        jPanel2.add(jdc_fachaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, 140, 30));
 
         jdc_fachaInicio.setDateFormatString("yyyy-MM-dd");
-        jPanel2.add(jdc_fachaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 140, 30));
+        jPanel2.add(jdc_fachaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 140, 30));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel12.setText("titulo:");
@@ -237,6 +248,22 @@ public class PReserva extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jtf_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 190, -1));
+
+        jch_ci.setText("Carnet Identidad");
+        jch_ci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jch_ciActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jch_ci, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, -1, -1));
+
+        jch_joya.setText("Joya");
+        jch_joya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jch_joyaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jch_joya, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 510, 360));
 
@@ -305,9 +332,7 @@ public class PReserva extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -315,6 +340,13 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jl_limpiadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_limpiadorMouseClicked
         // TODO add your handling code here:
+        this.jch_ci.setEnabled(true);
+        this.jch_joya.setEnabled(true);
+        this.jtf_garantia.setEnabled(true);
+        this.jch_ci.setSelected(false);
+        this.jch_joya.setSelected(false);
+        this.jtf_garantia.setText("");
+  
         this.ispresionado = false;
         this.jtf_id.setText("");
         this.apagarbotonCrear(true);
@@ -381,6 +413,11 @@ public class PReserva extends javax.swing.JFrame {
     private void jt_listar_reservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_listar_reservaMouseClicked
         // TODO add your handling code here:
         this.ispresionado = false;
+        this.jch_ci.setEnabled(false);
+        this.jch_joya.setEnabled(false);
+        this.jtf_garantia.setEnabled(false);
+        this.jch_ci.setSelected(false);
+        this.jch_joya.setSelected(false);
         this.clearLista();
 
         int rowSelected = this.jt_listar_reserva.getSelectedRow();
@@ -410,6 +447,7 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jbt_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_agregarActionPerformed
         //Boton Agregar
+        this.ispresionado = false;
         Object[] agregar = {
             this.jcb_vestimenta.getSelectedItem().toString(),
             this.jsp_cantidad.getValue().toString()};
@@ -422,6 +460,7 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jbt_quitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_quitarActionPerformed
         //Boton Quitar
+        this.ispresionado = false;
         int rowSelect = this.jt_listar_vestimenta.getSelectedRow();
         Object[] elementoAQuitar = {
             this.jt_listar_vestimenta.getValueAt(rowSelect, 0).toString(),
@@ -468,6 +507,22 @@ public class PReserva extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.ispresionado = true;
     }//GEN-LAST:event_jcb_estadoMouseClicked
+
+    private void jch_joyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jch_joyaActionPerformed
+        // TODO add your handling code here:
+        patronDecorador.setGarantia(jtf_garantia.getText());
+        Joya joya = new Joya(patronDecorador);
+        this.jtf_garantia.setText(joya.Detalle());
+        this.jch_joya.setEnabled(false);
+    }//GEN-LAST:event_jch_joyaActionPerformed
+
+    private void jch_ciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jch_ciActionPerformed
+        // TODO add your handling code here:
+        patronDecorador.setGarantia(jtf_garantia.getText());
+        CarnetIdentidad carnet = new CarnetIdentidad(patronDecorador);
+        this.jtf_garantia.setText(carnet.Detalle());
+        this.jch_ci.setEnabled(false);
+    }//GEN-LAST:event_jch_ciActionPerformed
 
     private boolean buscarEliminar(ArrayList<Object[]> lista, Object[] buscar) {
         String vestimentaBuscar = String.valueOf(buscar[0]);
@@ -716,6 +771,8 @@ public class PReserva extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_cliente;
     private javax.swing.JComboBox<String> jcb_estado;
     private javax.swing.JComboBox<String> jcb_vestimenta;
+    private javax.swing.JCheckBox jch_ci;
+    private javax.swing.JCheckBox jch_joya;
     private com.toedter.calendar.JDateChooser jdc_fachaFin;
     private com.toedter.calendar.JDateChooser jdc_fachaInicio;
     private javax.swing.JLabel jl_limpiador;
