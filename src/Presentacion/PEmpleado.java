@@ -256,7 +256,9 @@ public class PEmpleado extends javax.swing.JFrame {
         this.nombre = this.jtf_nombre.getText();
         this.ci = this.jtf_ci.getText();
         this.telefono = this.jtf_telefono.getText();
-        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+//        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.fecha_nacimiento = sdf.format(this.jdc_facha.getDate());
         this.sexo = this.getSexo();
         this.crear();
     }//GEN-LAST:event_jbt_crearActionPerformed
@@ -267,7 +269,9 @@ public class PEmpleado extends javax.swing.JFrame {
         this.nombre = this.jtf_nombre.getText();
         this.ci = this.jtf_ci.getText();
         this.telefono = this.jtf_telefono.getText();
-        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+//        this.fecha_nacimiento = this.jdc_facha.getDate().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.fecha_nacimiento = sdf.format(this.jdc_facha.getDate());
         this.sexo = this.getSexo();
         this.editar();
     }//GEN-LAST:event_jbt_editarActionPerformed

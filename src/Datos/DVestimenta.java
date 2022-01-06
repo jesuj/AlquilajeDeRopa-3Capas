@@ -1,5 +1,6 @@
 package Datos;
 
+import DB.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,18 +19,17 @@ public class DVestimenta {
     private int id_empleado;
     private int id_categoria;
     
-    private Connection con;
+    private Conexion con;
 
     public DVestimenta() {
-        Conexion conn = new Conexion();
-        con = conn.conectar();
+        this.con = Conexion.getInstancia();
     }
 
     public int crear(){
         String query = "insert into vestimentas (nombre,cantidad,precio,id_empleado,id_categoria) values(?,?,?,?,?)";
         String query2 = "select id from vestimentas order by id DESC limit 1";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setInt(2, this.cantidad);
             pre.setInt(3, this.precio);
@@ -37,7 +37,7 @@ public class DVestimenta {
             pre.setInt(5, this.id_categoria);
             pre.execute();
             
-            pre = con.prepareStatement(query2);
+            pre = con.conectar().prepareStatement(query2);
             ResultSet result = pre.executeQuery();
             result.next();
             int id_vestimenta = result.getInt(1);
@@ -53,7 +53,7 @@ public class DVestimenta {
         ArrayList<Object[]> vestimentas = new ArrayList<>();
         String query = "select vestimentas.id,vestimentas.nombre, vestimentas.cantidad,vestimentas.precio,vestimentas.id_empleado,empleados.nombre, vestimentas.id_categoria, categorias.nombre from vestimentas,categorias,empleados where id_empleado = empleados.id and id_categoria = categorias.id  order by id ASC";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             ResultSet result = pre.executeQuery();
             while(result.next()){
                 vestimentas.add(new Object[]{result.getInt(1),result.getString(2),result.getInt(3),result.getInt(4),result.getInt(5)+"-"+result.getString(6),result.getInt(7)+"-"+result.getString(8)});
@@ -68,7 +68,7 @@ public class DVestimenta {
     public boolean editar(){
         String query = "update vestimentas set nombre = ?, cantidad = ?, precio = ?, id_empleado = ?, id_categoria = ? where id = ? ";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setInt(2, this.cantidad);
             pre.setInt(3, this.precio);
@@ -87,7 +87,7 @@ public class DVestimenta {
     public boolean eliminar(){
         String query = "delete from vestimentas where id = ?";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();

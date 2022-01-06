@@ -1,4 +1,5 @@
 package Datos;
+import DB.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -11,17 +12,16 @@ public class DDetalleReserva {
     private int id_vestimentas;
     private int cantidad;
     
-    private Connection con;
+    private Conexion con;
     
     public DDetalleReserva() {
-        Conexion conn = new Conexion();
-        con = conn.conectar();
+        this.con = Conexion.getInstancia();
     }
     
     public boolean crear(){
         String query = "insert into detalle_reserva values(?,?,?)";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_reserva);
             pre.setInt(2, this.id_vestimentas);
             pre.setInt(3, this.cantidad);
@@ -37,7 +37,7 @@ public class DDetalleReserva {
     public boolean eliminar(){
         String query = "delete from detalle_reserva where id_reserva = ? and id_vestimenta = ? and cantidad = ? ";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_reserva);
             pre.setInt(2, this.id_vestimentas);
             pre.setInt(3, this.cantidad);
@@ -54,7 +54,7 @@ public class DDetalleReserva {
         ArrayList<Object[]> detalleprenda = new ArrayList<>();
         String query = "select detalle_reserva.id_vestimenta, vestimentas.nombre, detalle_reserva.cantidad from vestimentas, detalle_reserva where vestimentas.id = detalle_reserva.id_vestimenta and detalle_reserva.id_reserva = ?";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_reserva);
             ResultSet result = pre.executeQuery();
             while(result.next()){
@@ -90,6 +90,5 @@ public class DDetalleReserva {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    
     
 }

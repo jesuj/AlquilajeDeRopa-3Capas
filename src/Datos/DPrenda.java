@@ -1,5 +1,6 @@
 package Datos;
 
+import DB.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -14,17 +15,16 @@ public class DPrenda {
     private String tipo;
     private String descripcion;
     
-    private Connection con;
+    private Conexion con;
     
     public DPrenda() {
-        Conexion conn = new Conexion();
-        con = conn.conectar();
+        this.con = Conexion.getInstancia();
     }
     
     public boolean crear(){
         String query = "insert into prendas (nombre,tipo,descripcion) values(?,"+this.tipo+",?)";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setString(2, this.descripcion);
             pre.execute();
@@ -40,7 +40,7 @@ public class DPrenda {
         ArrayList<Object[]> prendas = new ArrayList<>();
         String query = "select * from prendas order by id ASC";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             ResultSet result = pre.executeQuery();
             while(result.next()){
                 prendas.add(new Object[]{result.getInt(1),result.getString(2),result.getString(3),result.getString(4)});
@@ -55,7 +55,7 @@ public class DPrenda {
     public boolean editar(){
         String query = "update prendas set nombre = ?, tipo = "+this.tipo+", descripcion = ? where id = ? ";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setString(2, this.descripcion);
             pre.setInt(3, this.id);
@@ -71,7 +71,7 @@ public class DPrenda {
     public boolean eliminar(){
         String query = "delete from prendas where id = ?";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();

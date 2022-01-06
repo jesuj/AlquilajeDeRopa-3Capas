@@ -1,5 +1,6 @@
 package Datos;
 
+import DB.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -14,17 +15,16 @@ public class DDetallePrenda {
     private int stock;
     private String color;
     
-    private Connection con;
+    private Conexion con;
     
     public DDetallePrenda() {
-        Conexion conn = new Conexion();
-        con = conn.conectar();
+        this.con = Conexion.getInstancia();
     }
     
     public boolean crear(){
         String query = "insert into detalle_prenda values(?,?,?,?)";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_vestimentas);
             pre.setInt(2, this.id_prenda);
             pre.setInt(3, this.stock);
@@ -41,7 +41,7 @@ public class DDetallePrenda {
     public boolean eliminar(){
         String query = "delete from detalle_prenda where id_vestimenta = ? and id_prenda = ? and stock = ? and color = ?";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_vestimentas);
             pre.setInt(2, this.id_prenda);
             pre.setInt(3, this.stock);
@@ -59,7 +59,7 @@ public class DDetallePrenda {
         ArrayList<Object[]> detalleprenda = new ArrayList<>();
         String query = "select detalle_prenda.id_prenda, prendas.nombre, detalle_prenda.stock, detalle_prenda.color from prendas, detalle_prenda where prendas.id = detalle_prenda.id_prenda and detalle_prenda.id_vestimenta = ? order by id ASC";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id_vestimentas);
             ResultSet result = pre.executeQuery();
             while(result.next()){

@@ -328,9 +328,12 @@ public class PReserva extends javax.swing.JFrame {
     private void jbt_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_crearActionPerformed
         this.titulo = this.jtf_titulo.getText();
         this.garantia = this.jtf_garantia.getText();
-        this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
-        this.fechaFin = this.jdc_fachaFin.getDate().toString();
-        
+//        this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
+//        this.fechaFin = this.jdc_fachaFin.getDate().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.fechaInicio = sdf.format(this.jdc_fachaInicio.getDate());
+        this.fechaFin = sdf.format(this.jdc_fachaFin.getDate());
+
 //        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
         this.estado = this.patronEstado.getNombre();
         this.id_cliente = Integer.valueOf(this.jcb_cliente.getSelectedItem().toString().split("-")[0]);
@@ -344,9 +347,11 @@ public class PReserva extends javax.swing.JFrame {
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.titulo = this.jtf_titulo.getText();
         this.garantia = this.jtf_garantia.getText();
-        this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
-        this.fechaFin = this.jdc_fachaFin.getDate().toString();
-        
+//        this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
+//        this.fechaFin = this.jdc_fachaFin.getDate().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.fechaInicio = sdf.format(this.jdc_fachaInicio.getDate());
+        this.fechaFin = sdf.format(this.jdc_fachaFin.getDate());
 //        this.estado = getEstado(this.jcb_estado.getSelectedIndex());
         this.estado = this.patronEstado.getNombre();
         this.id_cliente = Integer.valueOf(this.jcb_cliente.getSelectedItem().toString().split("-")[0]);

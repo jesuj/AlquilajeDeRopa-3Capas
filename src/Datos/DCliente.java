@@ -1,5 +1,6 @@
 package Datos;
 
+import DB.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -18,17 +19,16 @@ public class DCliente {
     private String sexo;
     private String direccion;
 
-    private Connection con;
+    private Conexion con;
 
     public DCliente() {
-        Conexion conn = new Conexion();
-        con = conn.conectar();
+        this.con = Conexion.getInstancia();
     }
 
     public boolean crear() {
         String query = "insert into clientes (nombre,ci,telefono,fecha_nacimiento,sexo,direccion) values(?,?,?,'"+this.fecha_nacimiento+"'," + this.sexo + ",?)";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setString(2, this.ci);
             pre.setString(3, this.telefono);
@@ -46,7 +46,7 @@ public class DCliente {
         ArrayList<Object[]> clientes = new ArrayList<>();
         String query = "select * from clientes order by id ASC";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             ResultSet result = pre.executeQuery();
             while (result.next()) {
                 clientes.add(new Object[]{result.getInt(1), result.getString(2), result.getString(3), result.getInt(4), result.getString(5),
@@ -62,7 +62,7 @@ public class DCliente {
     public boolean editar() {
         String query = "update clientes set nombre = ?, ci = ?, telefono = ?, fecha_nacimiento = '"+this.fecha_nacimiento+"', sexo = " + this.sexo + ", direccion = ? where id = ? ";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setString(1, this.nombre);
             pre.setString(2, this.ci);
             pre.setString(3, this.telefono);
@@ -80,7 +80,7 @@ public class DCliente {
     public boolean eliminar() {
         String query = "delete from clientes where id = ?";
         try {
-            PreparedStatement pre = con.prepareStatement(query);
+            PreparedStatement pre = con.conectar().prepareStatement(query);
             pre.setInt(1, this.id);
             pre.execute();
             pre.close();
