@@ -42,6 +42,8 @@ public class PReserva extends javax.swing.JFrame {
 
     //Patron Estado
     private Estado patronEstado;
+    
+    private boolean ispresionado;
     /**
      * Creates new form PVestimenta
      */
@@ -313,6 +315,7 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jl_limpiadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_limpiadorMouseClicked
         // TODO add your handling code here:
+        this.ispresionado = false;
         this.jtf_id.setText("");
         this.apagarbotonCrear(true);
         String[] column = {"prenda", "stock", "color"};
@@ -326,6 +329,7 @@ public class PReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_jtf_garantiaActionPerformed
 
     private void jbt_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_crearActionPerformed
+        this.ispresionado = false;
         this.titulo = this.jtf_titulo.getText();
         this.garantia = this.jtf_garantia.getText();
 //        this.fechaInicio = this.jdc_fachaInicio.getDate().toString();
@@ -344,6 +348,7 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jbt_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_editarActionPerformed
         // TODO add your handling code here:
+        this.ispresionado = false;
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.titulo = this.jtf_titulo.getText();
         this.garantia = this.jtf_garantia.getText();
@@ -361,6 +366,7 @@ public class PReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_editarActionPerformed
 
     private void jbt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_eliminarActionPerformed
+        this.ispresionado = false;
         this.id = Integer.valueOf(this.jtf_id.getText());
         this.eliminar();
         String[] column = {"vestimenta", "cantidad"};
@@ -374,6 +380,7 @@ public class PReserva extends javax.swing.JFrame {
 
     private void jt_listar_reservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_listar_reservaMouseClicked
         // TODO add your handling code here:
+        this.ispresionado = false;
         this.clearLista();
 
         int rowSelected = this.jt_listar_reserva.getSelectedRow();
@@ -451,12 +458,15 @@ public class PReserva extends javax.swing.JFrame {
                 break;
         }
         
-        JOptionPane.showMessageDialog(null,this.patronEstado.getMensaje());
+        if (this.ispresionado) {
+            JOptionPane.showMessageDialog(null,this.patronEstado.getMensaje());
+        }
         this.jcb_estado.setSelectedItem(this.patronEstado.getNombre());
     }//GEN-LAST:event_jcb_estadoActionPerformed
 
     private void jcb_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_estadoMouseClicked
         // TODO add your handling code here:
+        this.ispresionado = true;
     }//GEN-LAST:event_jcb_estadoMouseClicked
 
     private boolean buscarEliminar(ArrayList<Object[]> lista, Object[] buscar) {
