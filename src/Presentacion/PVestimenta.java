@@ -467,7 +467,7 @@ public class PVestimenta extends javax.swing.JFrame {
         int cantidaddetalleprenda = (detallePrenda == null) ? 0 : detallePrenda.size();
         int cantidadagregado = (agregardetallePrenda == null) ? 0 : agregardetallePrenda.size();
 
-        ActualizarPrenda(cantidaddetalleprenda, detallePrenda);
+        actualizarComboboxPrenda(cantidaddetalleprenda, detallePrenda);
 
         int x = cantidaddetalleprenda + cantidadagregado;
         System.out.println(x);
@@ -500,7 +500,7 @@ public class PVestimenta extends javax.swing.JFrame {
         }
     }
 
-    private void ActualizarPrenda(int cantidaddetalleprenda, ArrayList<Object[]> detallePrenda) {
+    public void actualizarComboboxPrenda(int cantidaddetalleprenda, ArrayList<Object[]> detallePrenda) {
         ArrayList<Object[]> vestimentas = new ArrayList<>();
         vestimentas = this.nprenda.listar();
         if (cantidaddetalleprenda != 0) {

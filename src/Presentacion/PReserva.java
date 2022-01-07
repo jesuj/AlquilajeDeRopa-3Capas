@@ -600,7 +600,7 @@ public class PReserva extends javax.swing.JFrame {
         int cantidaddetalleprenda = (detalleReserva == null) ? 0 : detalleReserva.size();
         int cantidadagregado = (agregardetalleReserva == null) ? 0 : agregardetalleReserva.size();
 
-        ActualizarVestimenta(cantidaddetalleprenda, detalleReserva);
+        actualizarComboboxVestimenta(cantidaddetalleprenda, detalleReserva);
 
         int x = cantidaddetalleprenda + cantidadagregado;
         System.out.println(x);
@@ -623,7 +623,7 @@ public class PReserva extends javax.swing.JFrame {
         this.jt_listar_vestimenta.setModel(new DefaultTableModel(data, column));
     }
 
-    private void ActualizarVestimenta(int cantidaddetalleprenda, ArrayList<Object[]> detalleReserva) {
+    public void actualizarComboboxVestimenta(int cantidaddetalleprenda, ArrayList<Object[]> detalleReserva) {
         ArrayList<Object[]> vestimentas = new ArrayList<>();
         vestimentas = this.nvestimenta.listar();
         if (cantidaddetalleprenda != 0) {

@@ -5,7 +5,7 @@ package Negocio.Decorador;
  * @author Oni
  */
 public class GarantiaBase implements ComponenteGarantia {
-    String garantia = "";
+    private String garantia = "";
 
     public GarantiaBase(String garantia) {
         this.garantia = garantia;
