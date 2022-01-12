@@ -45,7 +45,7 @@ public class Estado {
         estado.revision(state);
     }
     
-    public void devuelto(Estado state){
+    public void devolviendo(Estado state){
         estado.devolucion(state);
     }
     

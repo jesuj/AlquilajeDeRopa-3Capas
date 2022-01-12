@@ -493,7 +493,7 @@ public class PReserva extends javax.swing.JFrame {
                 this.patronEstado.enrevision(patronEstado);
                 break;
             case 3:
-                this.patronEstado.devuelto(patronEstado);
+                this.patronEstado.devolviendo(patronEstado);
                 break;
         }
         
