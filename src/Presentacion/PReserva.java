@@ -484,16 +484,16 @@ public class PReserva extends javax.swing.JFrame {
         // Patron State
         switch(jcb_estado.getSelectedIndex()){
             case 0:
-                this.patronEstado.getEstado().reservar(patronEstado);
+                this.patronEstado.reservado(patronEstado);
                 break;
             case 1:
-                this.patronEstado.getEstado().entregar(patronEstado);
+                this.patronEstado.entregado(patronEstado);
                 break;                
             case 2:
-                this.patronEstado.getEstado().revision(patronEstado);
+                this.patronEstado.enrevision(patronEstado);
                 break;
             case 3:
-                this.patronEstado.getEstado().devolucion(patronEstado);
+                this.patronEstado.devuelto(patronEstado);
                 break;
         }
         

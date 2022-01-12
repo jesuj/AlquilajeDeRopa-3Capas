@@ -33,6 +33,22 @@ public class Estado {
         this.nombre = nombre;
     }
 
+    public void reservado(Estado state){
+        estado.reservar(state);
+    }
+    
+    public void entregado(Estado state){
+        estado.entregar(state);
+    }
+    
+    public void enrevision(Estado state){
+        estado.revision(state);
+    }
+    
+    public void devuelto(Estado state){
+        estado.devolucion(state);
+    }
+    
     public State getEstado() {
         return estado;
     }
