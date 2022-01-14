@@ -28,4 +28,4 @@
 - ### Gestionar Reserva
   	![Gestionar Reserva](/Diagramas/Diagrama_Dinamico/CU_Gestionar_Reserva.png)
 - #### Diagrama de Estado
-	![Diagrama de Estado](/Diagrmas/Diagrama_Dinamico/Diagrama_de_Estado.png)
+	![Diagrama de Estado](/Diagramas/Diagrama_Dinamico/Diagrama_de_Estado.png)
