@@ -1,4 +1,4 @@
-# AlquilajeDeRopa-3Capas
+# Alquilaje De Ropa
 - Patron de Arquitectura 3 capas 
 - Patron de Diseño
 	- Patron Estado
@@ -11,6 +11,10 @@
 4. Gestionar Prenda
 5. Gestionar Categoria
 6. Gestionar Reserva
+
+## Tegnologias
+
+<img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" /> <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" /> <img src="https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white" />
 
 ## Diseño Conceptual
 ![Diseño Conceptual](/Diagramas/Diseño_Conceptual/Diseño_Conceptual.png)
